@@ -13,7 +13,7 @@
  ** g-recaptcha-response
  */
 
-// Only process POST reqeusts.
+// Only process POST requests
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     /*****************************************
      ****** Add your information here ********
@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             'remoteip' => $_SERVER["REMOTE_ADDR"]
             );
 
-    // use key 'http' even if you send the request to https://...
+    // Use key 'http' even if you send the request to https://
     $options = array(
             'http' => array(
                 'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
@@ -42,17 +42,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $context = stream_context_create($options);
     $result = file_get_contents($url, false, $context);
 
-    //PHP sees JSON as a string
+    // PHP sees JSON as a string
     $result = get_object_vars(json_decode($result));
 
-    //if the API call fails or the key is bad
-    if ($result === FALSE || !$result['success']) { /* Handle error */
+    // If the API call fails or the key is bad
+    if ($result === FALSE || !$result['success']) { 
         http_response_code(500);
         echo 'Recaptcha server error, try again later or email me directly at '. $email_address;
         exit;
     }
 
-    // Get the form fields and remove whitespace.
+    // Get the form fields and remove whitespace
     $name = strip_tags(trim($_POST["name"]));
     $name = str_replace(array("\r","\n"),array(" "," "),$name);
     $subject = strip_tags(trim($_POST["subject"]));
@@ -60,40 +60,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = filter_var(trim($_POST["email"]), FILTER_SANITIZE_EMAIL);
     $message = trim($_POST["message"]);
 
-    // Check that data was sent to the mailer.
+    // Check that data was sent to the mailer
     if (empty($name) || empty($subject) || empty($message) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        // Set a 400 (bad request) response code and exit.
+        // Set a 400 (bad request) response code and exit
         http_response_code(400);
-        echo "Oops! There was a problem with your submission. Please complete the form and try again.";
+        echo "There was a problem with your submission. Please complete the form and try again.";
         exit;
     }
 
-    // Set the recipient email address.
-    $recipient = $email_address;
-
-    // Build the email content.
+    // Concatenate the email content
     $email_content = "Name: $name\n";
     $email_content .= "Email: $email\n\n";
     $email_content .= "Message:\n$message\n";
 
-    // Build the email headers.
+    // Build the email headers
     $email_headers = "From: Easy Recaptcha Mailers <erm@example.com>";
 
-    // Send the email.
-    if (mail($recipient, $subject, $email_content, $email_headers)) {
+    // Send the email
+    if (mail($email_address, $subject, $email_content, $email_headers)) {
         // Set a 200 (okay) response code.
         http_response_code(200);
-        echo "Thank You! Your message has been sent.";
+        echo "Success! Your message has been sent.";
     }
     else {
-        // Set a 500 (internal server error) response code.
+        // Set a 500 (internal server error) response code
         http_response_code(500);
-        echo "Oops! Something went wrong with the mail server and I couldn't send your message. Try again later or email me directly at " . $email_address;
+        echo "Something went wrong with the mail server and I couldn't send your message. Try again later or email me directly at " . $email_address;
     }
 
 }
 else {
-    // Not a POST request, set a 403 (forbidden) response code.
+    // Not a POST request, set a 403 (forbidden) response code
     http_response_code(403);
     echo "There is either something terribly wrong, or you are up to no good.";
 }
