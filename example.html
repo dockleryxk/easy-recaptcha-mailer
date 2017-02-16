@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form name="contact-form" action="https://example.com/easy-recaptcha-mailer.php" method="post">
+    <input name="name" type="text" placeholder="Name*" maxlength="50" required>
+    <br><input name="email" type="email" placeholder="Email*" maxlength="50" required>
+    <br><input name="subject" type="text" placeholder="Subject*" maxlength="50" required>
+    <br><textarea name="message" maxlength="500"></textarea>
+    <br><div class="g-recaptcha" data-sitekey="your site key" data-callback="recaptchaCallback" data-expired-callback="recaptchaExpiredCallback"></div>
+    <br><button type="submit">Send</button>
+</form>
+<script src="example.js"></script>
+</body>
+</html>
