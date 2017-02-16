@@ -12,6 +12,8 @@ See it in action on my website, [richardjeffords.com](https://richardjeffords.co
 - Call it with a POST request (check out the js example)
 - Do whatever you want
 
+NOTE: I didn't bother testing this on anything besides PHP 7.
+
 ## License [![alt text](http://www.wtfpl.net/wp-content/uploads/2012/12/wtfpl-badge-4.png)](http://www.wtfpl.net/)
 
 This script is made available under a [WTFPL license](http://www.wtfpl.net/)
