@@ -74,7 +74,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email_content .= "Message:\n$message\n";
 
     // Build the email headers
-    $email_headers = "From: Easy Recaptcha Mailers <erm@example.com>";
+    $email_headers = "From: Easy Recaptcha Mailers <erm@example.com>" . "\r\n" .
+        'Reply-To: ' . $email . "\r\n";
 
     // Send the email
     if (mail($email_address, $subject, $email_content, $email_headers)) {
